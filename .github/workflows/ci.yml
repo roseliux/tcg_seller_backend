@@ -79,5 +79,8 @@ jobs:
           DATABASE_PASSWORD: postgres
           DATABASE_HOST: localhost
           DATABASE_PORT: 5432
-          # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test
+        run: bin/rails db:create db:migrate
+      - name: Run RSpec tests
+        env:
+          RAILS_ENV: test
+        run: bundle exec rspec
