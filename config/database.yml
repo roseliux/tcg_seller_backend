@@ -1,0 +1,68 @@
+# PostgreSQL. Versions 9.3 and up are supported.
+#
+#   gem install pg
+#
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: tcg_seller_development
+  username: <%= ENV['DATABASE_USERNAME'] || ENV['USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+  port: <%= ENV['DATABASE_PORT'] || 5432 %>
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: tcg_seller_test
+  username: <%= ENV['DATABASE_USERNAME'] || ENV['USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+  port: <%= ENV['DATABASE_PORT'] || 5432 %>
+
+# As with config/credentials.yml, you never want to store sensitive information
+# like your database password in your source code. If your source code is
+# ever seen by anyone, they now have access to your database.
+#
+# Instead, provide the password or a full connection URL as an environment variable
+# when you boot the app. For example:
+#   DATABASE_URL="postgres://myuser:mypass@localhost/somedatabase"
+production:
+  primary:
+    <<: *default
+    database: tcg_seller_production
+    username: <%= ENV['DATABASE_USERNAME'] %>
+    password: <%= ENV['DATABASE_PASSWORD'] %>
+    host: <%= ENV['DATABASE_HOST'] %>
+    port: <%= ENV['DATABASE_PORT'] || 5432 %>
+  cache:
+    <<: *default
+    database: tcg_seller_production_cache
+    username: <%= ENV['DATABASE_USERNAME'] %>
+    password: <%= ENV['DATABASE_PASSWORD'] %>
+    host: <%= ENV['DATABASE_HOST'] %>
+    port: <%= ENV['DATABASE_PORT'] || 5432 %>
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *default
+    database: tcg_seller_production_queue
+    username: <%= ENV['DATABASE_USERNAME'] %>
+    password: <%= ENV['DATABASE_PASSWORD'] %>
+    host: <%= ENV['DATABASE_HOST'] %>
+    port: <%= ENV['DATABASE_PORT'] || 5432 %>
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *default
+    database: tcg_seller_production_cable
+    username: <%= ENV['DATABASE_USERNAME'] %>
+    password: <%= ENV['DATABASE_PASSWORD'] %>
+    host: <%= ENV['DATABASE_HOST'] %>
+    port: <%= ENV['DATABASE_PORT'] || 5432 %>
+    migrations_paths: db/cable_migrate
