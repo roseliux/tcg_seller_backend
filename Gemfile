@@ -39,9 +39,26 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
+  # RSpec testing framework
+  gem "rspec-rails", "~> 7.0"
+  gem "factory_bot_rails", "~> 6.4"
+  gem "faker", "~> 3.4"
+
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+end
+
+group :development do
+  # Git hook management (optional alternative to manual hooks)
+  gem "overcommit", require: false
+end
+
+group :test do
+  # API testing helpers
+  gem "shoulda-matchers", "~> 6.4"
+  gem "json_matchers", "~> 0.11"
+  gem "database_cleaner-active_record", "~> 2.1"
 end

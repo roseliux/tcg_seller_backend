@@ -1,0 +1,32 @@
+# Overcommit configuration file
+# https://github.com/sds/overcommit
+
+PreCommit:
+  RuboCop:
+    enabled: true
+    command: ['bundle', 'exec', 'rubocop', '-f', 'github']
+    flags: ['--display-cop-names']
+    on_warn: fail # Treat warnings as failures
+
+  RSpec:
+    enabled: true
+    command: ['bundle', 'exec', 'rspec', '--format', 'progress']
+
+  Brakeman:
+    enabled: true
+    command: ['bundle', 'exec', 'brakeman', '--no-pager']
+
+PrePush:
+  RSpec:
+    enabled: true
+    command: ['bundle', 'exec', 'rspec']
+
+CommitMsg:
+  CapitalizedSubject:
+    enabled: true
+  SingleLineSubject:
+    enabled: true
+  TextWidth:
+    enabled: false
+    max_subject_width: 60
+    max_body_width: 72
