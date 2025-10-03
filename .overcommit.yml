@@ -27,6 +27,6 @@ CommitMsg:
   SingleLineSubject:
     enabled: true
   TextWidth:
-    enabled: true
+    enabled: false
     max_subject_width: 60
     max_body_width: 72
