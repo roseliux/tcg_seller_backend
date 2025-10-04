@@ -4,7 +4,6 @@ RSpec.describe "User Authentication", type: :request do
   let(:user) { create(:user, :john_doe, password: "password123456") }
 
   after(:each) do
-    # clear_auth_state
   end
 
   describe "POST /sign_in" do
