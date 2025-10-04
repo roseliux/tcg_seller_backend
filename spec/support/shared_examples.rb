@@ -38,7 +38,7 @@ RSpec.shared_examples 'validates required parameters' do |required_params|
 
       it 'returns unprocessable entity status' do
         subject
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

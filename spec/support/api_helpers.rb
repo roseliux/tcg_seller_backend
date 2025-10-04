@@ -39,4 +39,24 @@ module ApiHelpers
     expect(response).to have_http_status(status)
     expect(response.content_type).to include('application/json')
   end
+
+  # Authentication helper for testing
+  def sign_in(user, password = "password123456")
+    post "/sign_in", params: {
+      email: user.email,
+      password: password
+    }
+
+    if response.successful?
+      token = response.headers["X-Session-Token"]
+      return user, token
+    else
+      raise "Sign in failed: #{response.body}"
+    end
+  end  # Helper to create authorization headers
+  def auth_headers(token)
+    {
+      "Authorization" => "Bearer #{token}"
+    }
+  end
 end
