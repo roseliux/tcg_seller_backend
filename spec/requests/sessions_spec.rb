@@ -3,9 +3,6 @@ require 'rails_helper'
 RSpec.describe "User Authentication", type: :request do
   let(:user) { create(:user, :john_doe, password: "password123456") }
 
-  after(:each) do
-  end
-
   describe "POST /sign_in" do
     context "with valid credentials" do
       it "returns success status" do
