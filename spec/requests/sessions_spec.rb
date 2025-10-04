@@ -210,7 +210,7 @@ RSpec.describe "User Authentication", type: :request do
       end
 
       context "with valid session token" do
-        it "allows user to delete their own session", :skip_in_suite do
+        it "allows user to delete their own session" do
           _, session_token = sign_in(test_user)
           test_session = test_user.sessions.last
 
@@ -220,7 +220,7 @@ RSpec.describe "User Authentication", type: :request do
           expect(Session.exists?(test_session.id)).to be false
         end
 
-        it "returns success status", skip_in_suite: true do
+        it "returns success status"  do
           _, token = sign_in(test_user)
           session_to_delete = test_user.sessions.last
 

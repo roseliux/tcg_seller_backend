@@ -103,5 +103,5 @@ RSpec.configure do |config|
 
   # Skip tests marked as problematic in full suite runs
   # (but allow them to run individually)
-  config.filter_run_excluding :skip_in_suite unless ENV['RUN_ALL_TESTS']
+  # config.filter_run_excluding :skip_in_suite unless ENV['RUN_ALL_TESTS']
 end

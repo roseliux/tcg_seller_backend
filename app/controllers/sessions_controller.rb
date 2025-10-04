@@ -7,6 +7,10 @@ class SessionsController < ApplicationController
     render json: Current.user.sessions.order(created_at: :desc)
   end
 
+  def current
+    @user = Current.user
+  end
+
   def show
     render json: @session
   end
