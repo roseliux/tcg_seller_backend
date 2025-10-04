@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject { FactoryBot.build(:user) }
+  subject { build(:user) }
 
   describe "validations" do
     it { should validate_presence_of(:email) }
@@ -29,18 +29,18 @@ RSpec.describe User, type: :model do
 
   describe "factory" do
     it "has a valid factory" do
-      expect(FactoryBot.build(:user)).to be_valid
+      expect(build(:user)).to be_valid
     end
 
     it "creates valid traits" do
-      expect(FactoryBot.build(:user, :john_doe)).to be_valid
-      expect(FactoryBot.build(:user, :jane_smith)).to be_valid
-      expect(FactoryBot.build(:user, :unverified)).to be_valid
+      expect(build(:user, :john_doe)).to be_valid
+      expect(build(:user, :jane_smith)).to be_valid
+      expect(build(:user, :unverified)).to be_valid
     end
   end
 
   describe "validations in detail" do
-    let(:user) { FactoryBot.build(:user) }
+    let(:user) { build(:user) }
 
     context "when email is missing" do
       it "is invalid" do
@@ -52,8 +52,8 @@ RSpec.describe User, type: :model do
 
     context "when email is duplicate" do
       it "is invalid" do
-        FactoryBot.create(:user, email: "test@example.com")
-        duplicate_user = FactoryBot.build(:user, email: "TEST@EXAMPLE.COM")
+        create(:user, email: "test@example.com")
+        duplicate_user = build(:user, email: "TEST@EXAMPLE.COM")
         expect(duplicate_user).not_to be_valid
         expect(duplicate_user.errors[:email]).to include("has already been taken")
       end
@@ -101,8 +101,8 @@ RSpec.describe User, type: :model do
 
     context "when user_name is duplicate" do
       it "is invalid" do
-        FactoryBot.create(:user, user_name: "testuser")
-        duplicate_user = FactoryBot.build(:user, user_name: "TESTUSER")
+        create(:user, user_name: "testuser")
+        duplicate_user = build(:user, user_name: "TESTUSER")
         expect(duplicate_user).not_to be_valid
         expect(duplicate_user.errors[:user_name]).to include("has already been taken")
       end
@@ -153,28 +153,28 @@ RSpec.describe User, type: :model do
 
   describe "normalization" do
     it "downcases email before saving" do
-      user = FactoryBot.create(:user, email: "TEST@EXAMPLE.COM")
+      user = create(:user, email: "TEST@EXAMPLE.COM")
       expect(user.reload.email).to eq("test@example.com")
     end
 
     it "downcases user_name before saving" do
-      user = FactoryBot.create(:user, user_name: "TestUser")
+      user = create(:user, user_name: "TestUser")
       expect(user.reload.user_name).to eq("testuser")
     end
 
     it "strips whitespace from email" do
-      user = FactoryBot.create(:user, email: "  test@example.com  ")
+      user = create(:user, email: "  test@example.com  ")
       expect(user.reload.email).to eq("test@example.com")
     end
 
     it "strips whitespace from user_name" do
-      user = FactoryBot.create(:user, user_name: "  testuser  ")
+      user = create(:user, user_name: "  testuser  ")
       expect(user.reload.user_name).to eq("testuser")
     end
   end
 
   describe "instance methods" do
-    let(:user) { FactoryBot.build(:user, first_name: "John", last_name: "Doe", user_name: "johndoe") }
+    let(:user) { build(:user, first_name: "John", last_name: "Doe", user_name: "johndoe") }
 
     describe "#full_name" do
       it "returns first and last name combined" do
@@ -190,7 +190,7 @@ RSpec.describe User, type: :model do
   end
 
   describe "password authentication" do
-    let(:user) { FactoryBot.create(:user, password: "password123456") }
+    let(:user) { create(:user, password: "password123456") }
 
     it "authenticates with correct password" do
       expect(user.authenticate("password123456")).to eq(user)
@@ -209,7 +209,7 @@ RSpec.describe User, type: :model do
   end
 
   describe "email verification" do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { create(:user) }
 
     it "generates email verification token" do
       token = user.generate_token_for(:email_verification)
@@ -231,7 +231,7 @@ RSpec.describe User, type: :model do
   end
 
   describe "password reset" do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { create(:user) }
 
     it "generates password reset token" do
       token = user.generate_token_for(:password_reset)
@@ -245,7 +245,7 @@ RSpec.describe User, type: :model do
   end
 
   describe "session management" do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { create(:user) }
 
     it "can create sessions" do
       expect { user.sessions.create! }.to change(Session, :count).by(1)
@@ -275,19 +275,19 @@ RSpec.describe User, type: :model do
 
   describe "scope and class methods" do
     it "can authenticate by email and password" do
-      user = FactoryBot.create(:user, email: "test@example.com", password: "password123456")
+      user = create(:user, email: "test@example.com", password: "password123456")
       authenticated_user = User.authenticate_by(email: "test@example.com", password: "password123456")
       expect(authenticated_user).to eq(user)
     end
 
     it "returns nil for invalid credentials" do
-      FactoryBot.create(:user, email: "test@example.com", password: "password123456")
+      create(:user, email: "test@example.com", password: "password123456")
       authenticated_user = User.authenticate_by(email: "test@example.com", password: "wrongpassword")
       expect(authenticated_user).to be_nil
     end
 
     it "is case insensitive for email authentication" do
-      user = FactoryBot.create(:user, email: "test@example.com", password: "password123456")
+      user = create(:user, email: "test@example.com", password: "password123456")
       authenticated_user = User.authenticate_by(email: "TEST@EXAMPLE.COM", password: "password123456")
       expect(authenticated_user).to eq(user)
     end

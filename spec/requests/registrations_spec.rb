@@ -57,7 +57,7 @@ RSpec.describe "User Registration", type: :request do
 
     context "with duplicate email" do
       it "returns validation errors" do
-        FactoryBot.create(:user, email: "test@example.com")
+        create(:user, email: "test@example.com")
 
         post "/sign_up", params: valid_params
 
@@ -69,7 +69,7 @@ RSpec.describe "User Registration", type: :request do
 
     context "with duplicate user_name" do
       it "returns validation errors" do
-        FactoryBot.create(:user, user_name: "testuser")
+        create(:user, user_name: "testuser")
 
         post "/sign_up", params: valid_params
 

@@ -28,8 +28,21 @@ class SessionsController < ApplicationController
     head :no_content
   end
 
+  def destroy_current
+    if Current.session
+      Current.session.destroy!
+      Current.session = nil
+      Current.user = nil
+      head :no_content
+    else
+      render json: { error: "No active session" }, status: :unauthorized
+    end
+  end
+
   private
     def set_session
       @session = Current.user.sessions.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: "Session not found" }, status: :not_found
     end
 end
