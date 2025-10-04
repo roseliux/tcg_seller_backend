@@ -1,0 +1,42 @@
+{
+  "ruby.testFramework": "rspec",
+  "ruby.rspec": {
+    "command": "bundle exec rspec",
+    "useBundler": true
+  },
+  "ruby.useBundler": true,
+  "ruby.pathToBundler": "bundle",
+  "files.associations": {
+    "*_spec.rb": "rspec"
+  },
+  "emmet.includeLanguages": {
+    "erb": "html"
+  },
+  "files.exclude": {
+    "tmp/": true,
+    "log/": true,
+    "vendor/bundle/": true
+  },
+  "rubyTestExplorer.testFramework": "rspec",
+  "rubyTestExplorer.rspecCommand": "bundle exec rspec",
+  "testExplorer.useNativeTesting": true,
+  "testing.defaultGutterClickAction": "run",
+  "testing.gutterEnabled": true,
+  "railsRunSpecFile.command": "bundle exec rspec",
+  "railsRunSpec.useBundler": true,
+  "ruby-test-runner.rspecCommand": "bundle exec rspec",
+  "rubyLsp.formatter": "rubocop",
+  "rubyLsp.linters": [
+    "rubocop"
+  ],
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "[ruby]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "Shopify.ruby-lsp"
+  },
+  "rubocop.format": "github",
+  "rubocop.displayCopNames": true
+}

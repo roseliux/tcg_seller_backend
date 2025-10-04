@@ -1,0 +1,25 @@
+[
+  {
+    "key": "cmd+r cmd+t",
+    "command": "workbench.action.tasks.runTask",
+    "args": "RSpec: Run current file",
+    "when": "editorLangId == ruby && resourceExtname == .rb && resourcePath =~ /.*_spec\\.rb$/"
+  },
+  {
+    "key": "cmd+r cmd+l",
+    "command": "workbench.action.tasks.runTask",
+    "args": "RSpec: Run current line",
+    "when": "editorLangId == ruby && resourceExtname == .rb && resourcePath =~ /.*_spec\\.rb$/"
+  },
+  {
+    "key": "cmd+r cmd+a",
+    "command": "workbench.action.tasks.runTask",
+    "args": "RSpec: Run all specs"
+  },
+  {
+    "key": "cmd+r cmd+d",
+    "command": "workbench.action.tasks.runTask",
+    "args": "RSpec: Run with documentation format",
+    "when": "editorLangId == ruby && resourceExtname == .rb && resourcePath =~ /.*_spec\\.rb$/"
+  }
+]
