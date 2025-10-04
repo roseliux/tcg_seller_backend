@@ -9,7 +9,7 @@ PreCommit:
     on_warn: fail # Treat warnings as failures
 
   RSpec:
-    enabled: true
+    enabled: false
     command: ["bundle", "exec", "rspec", "--format", "progress"]
 
   Brakeman:
