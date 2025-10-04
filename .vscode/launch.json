@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run RSpec - current file",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "cd ${workspaceFolder} && bundle exec rspec ${relativeFile}",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Run RSpec - current line",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "cd ${workspaceFolder} && bundle exec rspec ${relativeFile}:${lineNumber}",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Run RSpec - all specs",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "cd ${workspaceFolder} && bundle exec rspec",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

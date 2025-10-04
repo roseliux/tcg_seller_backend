@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "shopify.ruby-lsp",
+    "connorshea.vscode-ruby-test-adapter",
+    "noku.rails-run-spec-vscode",
+    "mateuszdrewniak.ruby-test-runner",
+    "thadeu.vscode-run-rspec-file",
+    "karunamurti.rspec-snippets",
+    "lourenci.go-to-spec",
+    "kaiwood.endwise"
+  ]
+}

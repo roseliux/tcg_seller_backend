@@ -100,6 +100,8 @@ RSpec.configure do |config|
 
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
-  # arbitrary gems may also be filtered via:
-  # config.filter_gems_from_backtrace("gem name")
+
+  # Skip tests marked as problematic in full suite runs
+  # (but allow them to run individually)
+  config.filter_run_excluding :skip_in_suite unless ENV['RUN_ALL_TESTS']
 end
