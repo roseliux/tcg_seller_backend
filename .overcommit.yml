@@ -4,22 +4,22 @@
 PreCommit:
   RuboCop:
     enabled: true
-    command: ['bundle', 'exec', 'rubocop', '-f', 'github']
-    flags: ['--display-cop-names']
+    command: ["bundle", "exec", "rubocop", "-f", "github"]
+    flags: ["--display-cop-names"]
     on_warn: fail # Treat warnings as failures
 
   RSpec:
     enabled: true
-    command: ['bundle', 'exec', 'rspec', '--format', 'progress']
+    command: ["bundle", "exec", "rspec", "--format", "progress"]
 
   Brakeman:
     enabled: true
-    command: ['bundle', 'exec', 'brakeman', '--no-pager']
+    command: ["bundle", "exec", "brakeman", "--no-pager"]
 
 PrePush:
   RSpec:
     enabled: true
-    command: ['bundle', 'exec', 'rspec']
+    command: ["bundle", "exec", "rspec"]
 
 CommitMsg:
   CapitalizedSubject:
