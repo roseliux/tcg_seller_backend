@@ -7,11 +7,17 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    # origins "example.com"
-    origins "localhost:3001"
+    if Rails.env.development?
+      # Allow local development (covers localhost, 127.0.0.1, and local network IPs)
+      origins(/\Ahttp:\/\/(localhost|127\.0\.0\.1|\d+\.\d+\.\d+\.\d+):\d+\z/)
+    else
+      # Production origins - replace with your actual domains
+      origins "https://your-production-domain.com"
+    end
 
     resource "*",
       headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+      methods: [:get, :post, :put, :patch, :delete, :options, :head],
+      expose: ["X-Session-Token"] # Expose custom headers to the client
   end
 end
