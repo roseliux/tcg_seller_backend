@@ -32,14 +32,16 @@ RAILS_ENV=test bin/rails db:create db:migrate
 # ALWAYS run all three in this order:
 bundle exec rubocop              # Linting (uses GitHub format by default)
 bundle exec brakeman --no-pager  # Security scan
-bundle exec rspec                # Full test suite (131 tests, ~1.2 seconds)
+bundle exec rspec                # Full test suite (131 tests, ~1.2 seconds, 100% passing)
 ```
 
 ### 3. Development Server
 ```bash
-bin/rails server    # Starts on port 3000
+bin/rails server -b 0.0.0.0    # Network accessible (required for mobile testing)
 # OR
-bin/dev            # Alternative via bin/dev script
+bin/rails server               # Localhost only
+# OR
+bin/dev                       # Alternative via bin/dev script
 ```
 
 ### 4. Testing Commands
@@ -73,11 +75,13 @@ RAILS_ENV=test bin/rails db:reset
 
 ## Project Architecture & File Layout
 
-### Authentication System (authentication-zero based)
+### Authentication System (authentication-zero based) ✅ FULLY IMPLEMENTED
 - **Models**: `User`, `Session`, `Current` (for request context)
 - **Controllers**: `SessionsController`, `RegistrationsController`, `PasswordsController`
-- **Routes**: `POST /sign_in`, `POST /sign_up`, `DELETE /sign_out`, `GET /sessions`
+- **Routes**: `POST /sign_in`, `POST /sign_up`, `DELETE /sign_out`, `GET /me`
 - **Authentication**: HTTP Token authentication via `Authorization: Bearer <token>` header
+- **Mobile Integration**: CORS configured with `X-Session-Token` header exposure
+- **Test Users**: Seeded in database for mobile app testing (John Doe, Jane Smith)
 
 ### Core Application Structure
 ```
@@ -110,8 +114,10 @@ spec/
 - `.rubocop.yml`: Uses rubocop-rails-omakase + GitHub formatter by default
 - `.overcommit.yml`: Pre-commit hooks (RuboCop, RSpec, Brakeman)
 - `.rspec`: RSpec configuration (excludes `:skip_in_suite` tagged tests)
-- `config/routes.rb`: API routes definition
+- `config/routes.rb`: API routes definition with authentication endpoints
 - `config/database.yml`: PostgreSQL configuration
+- `config/initializers/cors.rb`: CORS configuration for mobile app connectivity
+- `db/seeds.rb`: Test user creation for mobile app development
 
 ## Testing Guidelines
 
@@ -120,6 +126,7 @@ spec/
 - API tests in `spec/requests/` use `ApiHelpers` module
 - Model tests use `shoulda-matchers` for validations
 - Tests run with database isolation (131 examples, 0 failures expected)
+- Authentication tests cover complete sign-in/sign-up/sign-out flow
 
 **Key Test Helpers:**
 ```ruby
@@ -137,6 +144,22 @@ create(:user)           # FactoryBot user creation
 - `Product` belongs_to `category`, has_one `card_set` through category
 - Products have `rarity` and `product_type` enums
 
+## Mobile App Integration (IMPLEMENTED)
+
+**CORS Configuration**:
+- `config/initializers/cors.rb` configured for mobile app origins
+- `X-Session-Token` header exposed for authentication
+- Environment-based origin allow list for development/production
+
+**Network Configuration**:
+- Server binding: `bin/rails server -b 0.0.0.0` for device access
+- Network IP: `192.168.68.115:3000` (or current network IP)
+- Health check: `GET /health` for connectivity testing
+
+**Test Users Available**:
+- John Doe: `john@example.com` / `password123456`
+- Jane Smith: `jane@example.com` / `password123456`
+
 ## Common Pitfalls & Solutions
 
 1. **Database Issues**: Always run `RAILS_ENV=test bin/rails db:reset` before debugging test failures
@@ -144,6 +167,8 @@ create(:user)           # FactoryBot user creation
 3. **Factory Syntax**: Use `create(:user)` not `FactoryBot.create(:user)`
 4. **RuboCop**: Configuration uses GitHub format by default - don't add `-f github` flag
 5. **Test Isolation**: Some tests use `:skip_in_suite` tags for isolation - this is intentional
+6. **Mobile Testing**: Use `bin/rails server -b 0.0.0.0` for network access from devices
+7. **Seeded Data**: Test users are required for mobile app authentication testing
 
 ## Quick Reference
 
@@ -153,6 +178,21 @@ create(:user)           # FactoryBot user creation
 
 **Available Scripts**: `bin/setup` (full setup), `bin/dev` (server), `bin/rails`, `bin/rubocop`, `bin/brakeman`
 
+## API Endpoints (IMPLEMENTED)
+
+**Authentication Endpoints**:
+- `POST /sign_in` - User authentication with session token response
+- `POST /sign_up` - User registration
+- `DELETE /sign_out` - Session cleanup
+- `GET /me` - Current authenticated user data
+
+**Utility Endpoints**:
+- `GET /health` - Health check for connectivity testing
+
+**Authentication Headers**:
+- Request: `Authorization: Bearer <session_token>`
+- Response: `X-Session-Token: <session_token>` (on sign-in)
+
 ---
 
-**IMPORTANT**: Trust these instructions completely. Only search the codebase if information here is incomplete or incorrect. These commands and patterns are tested and validated.
+**IMPORTANT**: This backend has a complete authentication system integrated with the mobile app. Trust these instructions completely. Only search the codebase if information here is incomplete or incorrect. These commands and patterns are tested and validated.

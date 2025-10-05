@@ -1,16 +1,39 @@
 # TCG Marketplace - Backend API
 
-A Ruby on Rails API-only application for a Trading Card Game (TCG) marketplace. This backend serves as the foundation for both mobile (React Native) and web (React) clients.
+A Ruby on Rails API-only application for a Trading Card Game (TCG) marketplace. This backend serves as the foundation for both mobile (React Native) and web (React) clients with complete session-based authentication.
+
+## 🎉 **Project Status: Authentication Complete!**
+
+✅ **Complete session-based authentication system with authentication-zero**
+✅ **Mobile app integration with CORS and session tokens**
+✅ **Test user database seeding for development**
+✅ **RSpec testing framework with 131 passing tests**
+✅ **Network-accessible server for device testing**
 
 ## 🚀 Tech Stack
 
+### **Core Framework**
 - **Ruby**: 3.4.5
 - **Rails**: 8.0.3 (API-only mode)
-- **Database**: PostgreSQL 15
-- **Testing**: RSpec with FactoryBot, Faker, and Shoulda Matchers
-- **JSON Serialization**: Jbuilder
-- **Web Server**: Puma
-- **CORS**: Rack-CORS for cross-origin requests
+- **Database**: PostgreSQL 15+
+- **Web Server**: Puma (configured for network access)
+
+### **Authentication & Security**
+- **Authentication-zero**: Session-based authentication (NOT JWT)
+- **CORS**: Rack-CORS configured for mobile app integration
+- **Session Tokens**: Custom `X-Session-Token` header for mobile clients
+- **Brakeman**: Security vulnerability scanning
+
+### **Testing & Quality**
+- **RSpec**: Main testing framework with 131 passing tests
+- **FactoryBot**: Test data generation
+- **Faker**: Realistic fake data
+- **Shoulda Matchers**: Rails-specific test matchers
+- **RuboCop**: Code style enforcement with Rails Omakase config
+- **Overcommit**: Pre-commit hooks for quality assurance
+
+### **JSON & Serialization**
+- **Jbuilder**: JSON template engine for API responses
 
 ## 📋 Prerequisites
 
@@ -36,22 +59,31 @@ bundle install
 
 ### 3. Database setup
 ```bash
-# Create the databases
-rails db:create
+# Create and setup databases for both development and test
+RAILS_ENV=development bin/rails db:create db:migrate
+RAILS_ENV=test bin/rails db:create db:migrate
 
-# Run migrations (when available)
-rails db:migrate
-
-# Seed the database (optional)
-rails db:seed
+# Seed the database with test users (REQUIRED for mobile app testing)
+bin/rails db:seed
 ```
+
+**Test Users Created:**
+- **John Doe**: `john@example.com` / `password123456`
+- **Jane Smith**: `jane@example.com` / `password123456`
 
 ### 4. Start the development server
 ```bash
-rails server
+# For network access (required for mobile device testing)
+bin/rails server -b 0.0.0.0
+
+# Or use the standard localhost-only server
+bin/rails server
 ```
 
-The API will be available at `http://localhost:3000`
+**Server Access:**
+- **Local**: `http://localhost:3000`
+- **Network** (for mobile): `http://192.168.68.115:3000` (or your network IP)
+- **Health Check**: `GET /health` returns `{"status": "ok", "timestamp": "..."}`
 
 ## 🗄️ Database Configuration
 
@@ -83,23 +115,93 @@ This project uses **RSpec** as the testing framework with additional testing gem
 ### Running Tests
 
 ```bash
-# Run all specs
+# Run all specs (recommended - 131 tests, ~1.2 seconds)
 bundle exec rspec
 
 # Run with documentation format (verbose)
 bundle exec rspec --format documentation
 
 # Run specific spec file
-bundle exec rspec spec/requests/application_spec.rb
+bundle exec rspec spec/requests/sessions_spec.rb
 
 # Run specific test by line number
-bundle exec rspec spec/requests/application_spec.rb:10
+bundle exec rspec spec/requests/sessions_spec.rb:10
 
+# Reset test database if needed
+RAILS_ENV=test bin/rails db:reset
 ```
+
+### **Test Coverage**
+- **131 passing tests** (100% success rate)
+- **Authentication system**: Complete session management testing
+- **API endpoints**: Full request/response validation
+- **Model validations**: User, Session, and domain models
+- **Security**: Authentication and authorization flows
 
 ## 📡 API Endpoints
 
-The API uses JSON format for all requests and responses. CORS is configured to allow cross-origin requests for mobile and web clients.
+The API uses JSON format for all requests and responses. CORS is configured to allow cross-origin requests for mobile and web clients with custom header support.
+
+### 🔐 Authentication Endpoints (IMPLEMENTED)
+
+#### **Sign In**
+```bash
+POST /sign_in
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123456"
+}
+```
+
+**Response:**
+```json
+{
+  "id": "session_id_here"
+}
+```
+**Headers:** `X-Session-Token: your_session_token_here`
+
+#### **Sign Up**
+```bash
+POST /sign_up
+Content-Type: application/json
+
+{
+  "email": "newuser@example.com",
+  "password": "password123456",
+  "first_name": "New",
+  "last_name": "User",
+  "user_name": "newuser"
+}
+```
+
+#### **Sign Out**
+```bash
+DELETE /sign_out
+Authorization: Bearer your_session_token_here
+```
+
+#### **Current User**
+```bash
+GET /me
+Authorization: Bearer your_session_token_here
+```
+
+**Response:**
+```json
+{
+  "id": 1,
+  "email": "john@example.com",
+  "first_name": "John",
+  "last_name": "Doe",
+  "user_name": "johndoe",
+  "verified": true,
+  "created_at": "2025-01-01T00:00:00.000Z",
+  "updated_at": "2025-01-01T00:00:00.000Z"
+}
+```
 
 ### Health Check
 ```bash
@@ -129,6 +231,12 @@ Ensure the following environment variables are set in production:
 - `DATABASE_HOST`
 - `DATABASE_PORT`
 - `RAILS_MASTER_KEY` (for credentials)
+
+### **Mobile App Integration**
+For mobile app connectivity:
+- **CORS Origins**: Configure allowed origins in `config/initializers/cors.rb`
+- **Network Binding**: Use `rails server -b 0.0.0.0` for device testing
+- **Session Headers**: `X-Session-Token` header exposed for authentication
 
 ## 🔧 Development
 
@@ -164,33 +272,44 @@ The `debug` gem is available in development and test environments for debugging.
 
 ```
 app/
-├── controllers/          # API controllers
-├── models/              # Active Record models
-├── views/               # Jbuilder JSON templates
-└── jobs/                # Background jobs
+├── controllers/
+│   ├── application_controller.rb     # Base controller with auth logic ✅
+│   ├── sessions_controller.rb        # Authentication endpoints ✅
+│   ├── registrations_controller.rb   # User registration ✅
+│   ├── passwords_controller.rb       # Password management ✅
+│   └── identity/                     # Email/password identity management
+├── models/
+│   ├── user.rb                       # User model with validations ✅
+│   ├── session.rb                    # Session model for auth ✅
+│   ├── current.rb                    # Request context helper ✅
+│   ├── card_set.rb, category.rb, product.rb  # TCG domain models ✅
+│   └── concerns/                     # Shared model logic
+├── views/                           # Jbuilder JSON templates
+└── jobs/                            # Background jobs
 
 config/
-├── routes.rb            # API routes
-├── database.yml         # Database configuration
+├── routes.rb                        # API routes with auth endpoints ✅
+├── database.yml                     # PostgreSQL configuration ✅
 └── initializers/
-    └── cors.rb          # CORS configuration
+    └── cors.rb                      # CORS with mobile app support ✅
 
 db/
-├── migrate/             # Database migrations
-└── seeds.rb            # Database seeds
+├── migrate/                         # Database migrations ✅
+└── seeds.rb                        # Test user seeds ✅
 
-spec/                    # RSpec test files
-├── factories/           # FactoryBot factories
-├── models/              # Model specs
-├── requests/            # API request specs (integration tests)
-├── support/             # Test helpers and shared examples
-│   ├── api_helpers.rb   # JSON API testing helpers
-│   └── shared_examples.rb # Reusable test patterns
-├── rails_helper.rb      # Rails-specific test configuration
-└── spec_helper.rb       # General RSpec configuration
+spec/                               # RSpec test files (131 tests) ✅
+├── factories/                      # FactoryBot factories ✅
+├── models/                         # Model unit tests ✅
+├── requests/                       # API integration tests ✅
+├── support/
+│   ├── api_helpers.rb             # JSON API testing helpers ✅
+│   └── shared_examples.rb         # Reusable test patterns ✅
+├── rails_helper.rb                # Rails test configuration ✅
+└── spec_helper.rb                 # RSpec configuration ✅
 
-.overcommit.yml          # Git hooks configuration
-.rspec                   # RSpec configuration
+.overcommit.yml                     # Pre-commit hooks ✅
+.rspec                             # RSpec configuration ✅
+.rubocop.yml                       # Code style configuration ✅
 ```
 
 ## 🤝 Contributing
@@ -207,11 +326,41 @@ This project is private and proprietary.
 
 ## 🎯 Roadmap
 
-- [ ] User authentication (JWT)
-- [ ] Card management API
-- [ ] Listing management API
-- [ ] User profiles
-- [ ] Search and filtering
-- [ ] Image upload support
-- [ ] Payment integration
-- [ ] Real-time notifications
+### **Completed** ✅
+- **User authentication** (session-based with authentication-zero)
+- **User registration and sign-in/sign-out**
+- **Mobile app API integration**
+- **CORS configuration for cross-origin requests**
+- **Test user database seeding**
+- **Complete RSpec testing suite**
+- **Code quality and security scanning**
+
+### **Coming Soon** 🚧
+- Card management API (CRUD operations)
+- Listing management API
+- Enhanced user profiles
+- Search and filtering endpoints
+- Image upload support
+- Payment integration
+- Real-time notifications
+- API rate limiting and caching
+
+## 🔐 **Authentication Usage**
+
+### **Mobile App Integration**
+```bash
+# Sign in and get session token
+curl -X POST http://192.168.68.115:3000/sign_in \
+  -H "Content-Type: application/json" \
+  -d '{"email": "john@example.com", "password": "password123456"}'
+
+# Use session token in subsequent requests
+curl -X GET http://192.168.68.115:3000/me \
+  -H "Authorization: Bearer YOUR_SESSION_TOKEN"
+```
+
+### **Session Management**
+- **Session Creation**: POST `/sign_in` returns session token in `X-Session-Token` header
+- **Token Usage**: Include `Authorization: Bearer <token>` header in authenticated requests
+- **Session Cleanup**: DELETE `/sign_out` properly destroys session
+- **Current User**: GET `/me` returns authenticated user data
