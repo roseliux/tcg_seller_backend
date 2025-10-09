@@ -7,7 +7,7 @@ class Card < ApplicationRecord
   validates :id, presence: true, uniqueness: true
   validates :name, presence: true
 
-  before_validation :ensure_id_present
+  before_validation :ensure_id_present, on: :create
 
   private
 
