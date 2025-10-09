@@ -17,7 +17,7 @@ RSpec.describe "/cards", type: :request do
 
         expect(response).to have_http_status(:ok)
 
-        cards = json_response
+        cards = json_response[:data]
         expect(cards).to be_an(Array)
         expect(cards.size).to eq(3)
 
@@ -32,7 +32,7 @@ RSpec.describe "/cards", type: :request do
 
         expect(response).to have_http_status(:ok)
 
-        cards = json_response
+        cards = json_response[:data]
         expect(cards).to be_an(Array)
         expect(cards.size).to eq(1)
         expect(cards.first[:name]).to eq('Charizard')
@@ -43,7 +43,7 @@ RSpec.describe "/cards", type: :request do
 
         expect(response).to have_http_status(:ok)
 
-        cards = json_response
+        cards = json_response[:data]
         expect(cards).to be_an(Array)
         expect(cards.size).to eq(3)
         expect(cards.map { |c| c[:name] }).to contain_exactly('Blastoise', 'Charizard', 'Venusaur')
@@ -54,7 +54,7 @@ RSpec.describe "/cards", type: :request do
 
         expect(response).to have_http_status(:ok)
 
-        cards = json_response
+        cards = json_response[:data]
         expect(cards).to be_an(Array)
         expect(cards.size).to eq(0)
       end
@@ -64,7 +64,7 @@ RSpec.describe "/cards", type: :request do
 
         expect(response).to have_http_status(:ok)
 
-        cards = json_response
+        cards = json_response[:data]
         expect(cards).to be_an(Array)
         expect(cards.size).to eq(3)
       end
@@ -74,7 +74,7 @@ RSpec.describe "/cards", type: :request do
 
         expect(response).to have_http_status(:ok)
 
-        cards = json_response
+        cards = json_response[:data]
         expect(cards).to be_an(Array)
         expect(cards.size).to eq(1)
         expect(cards.first[:name]).to eq('Charizard')

@@ -35,6 +35,9 @@ gem "thruster", require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
 gem "rack-cors"
 
+# Pagination
+gem "pagy", "~> 9.4" # omit patch digit
+
 # TCG SDKs
 # # Pokémon
 # gem 'pokemon_tcg_sdk', '~> 4.3.0'
