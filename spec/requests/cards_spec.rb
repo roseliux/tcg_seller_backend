@@ -80,5 +80,19 @@ RSpec.describe "/cards", type: :request do
         expect(cards.first[:name]).to eq('Charizard')
       end
     end
+
+    context 'pagination' do
+      it "paginates results with default page size" do
+        get "/cards", headers: auth_headers(token)
+
+        data = json_response[:data]
+        pagination = json_response[:pagy]
+
+        expect(data.length).to eq(3)
+        expect(pagination[:page]).to eq(1)
+        expect(pagination[:limit]).to eq(20)
+        expect(pagination[:next]).to be_nil # No next page
+      end
+    end
   end
 end
