@@ -1,17 +1,28 @@
 FactoryBot.define do
   factory :card_set do
+    id { SecureRandom.uuid }
     sequence(:name) { |n| "Card Set #{n}" }
+    release_date { 1.year.ago }
+    association :category
 
-    trait :pokemon_base_set do
-      name { "Pokemon Base Set" }
+    trait :base_set_unlimited do
+      name { "Base Set Unlimited" }
+      release_date { Date.parse("1999-01-09") }
     end
 
-    trait :magic_alpha do
-      name { "Magic: The Gathering Alpha" }
+    trait :base_set_shadowless do
+      name { "Base Set Shadowless" }
+      release_date { Date.parse("1999-01-09") }
     end
 
-    trait :yugioh_legend_of_blue_eyes do
-      name { "Yu-Gi-Oh! Legend of Blue Eyes White Dragon" }
+    trait :first_edition do
+      name { "Base Set 1st Edition" }
+      release_date { Date.parse("1998-10-20") }
+    end
+
+    trait :magic_beta do
+      name { "Beta Edition" }
+      release_date { Date.parse("1993-10-01") }
     end
   end
 end

@@ -35,9 +35,20 @@ gem "thruster", require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
 gem "rack-cors"
 
+# TCG SDKs
+# # Pokémon
+# gem 'pokemon_tcg_sdk', '~> 4.3.0'
+# Magic: The Gathering
+# gem 'mtg-sdk-ruby'
+# Yu-Gi-Oh!
+# gem 'yugioh_tcg_sdk'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+
+  # Environment variable management
+  # gem "dotenv-rails"
 
   # RSpec testing framework
   gem "rspec-rails", "~> 8.0"

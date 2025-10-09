@@ -1,7 +1,20 @@
 class Category < ApplicationRecord
-  belongs_to :card_set
-  has_many :products, dependent: :destroy
+  self.primary_key = :id
 
-  validates :name, presence: true
-  validates :release_date, presence: true
+  has_many :card_sets, dependent: :destroy
+  has_many :cards, dependent: :destroy
+
+  validates :id, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: true
+
+  before_validation :ensure_id_present
+
+  private
+
+  def ensure_id_present
+    if id.blank? && name.present?
+      # Generate a readable id from the name (slugified, lowercased, hyphens)
+      self.id = name.parameterize(separator: "-")
+    end
+  end
 end
