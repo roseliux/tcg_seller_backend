@@ -17,4 +17,6 @@ Rails.application.routes.draw do
   end
 
   resources :categories, only: :index
+  resources :card_sets, only: :index
+  resources :cards, only: :index
 end
