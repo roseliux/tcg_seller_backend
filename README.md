@@ -35,7 +35,13 @@ A Ruby on Rails API-only application for a Trading Card Game (TCG) marketplace. 
 ### **JSON & Serialization**
 - **Jbuilder**: JSON template engine for API responses
 
-## 📋 Prerequisites
+## � Documentation
+
+Additional detailed documentation is available in the `docs/` folder:
+
+- **[JSON Data Management System](docs/README_JSON_LOADER.md)**: Comprehensive guide for managing TCG data with JSON files, including Pokemon TCG API integration, flexible folder structures, and parameterized rake tasks
+
+## �📋 Prerequisites
 
 Before you begin, ensure you have the following installed:
 
@@ -65,6 +71,13 @@ RAILS_ENV=test bin/rails db:create db:migrate
 
 # Seed the database with test users (REQUIRED for mobile app testing)
 bin/rails db:seed
+
+# Populate categories
+bundle exec rake db:populate_categories_from_json
+
+# Pokemon-specific population tasks
+bundle exec rake db_pokemon:populate_card_sets    # Populate Pokemon card sets
+bundle exec rake db_pokemon:populate_cards        # Populate Pokemon 19k cards
 ```
 
 **Test Users Created:**

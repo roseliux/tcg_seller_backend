@@ -1,0 +1,30 @@
+[
+  {
+    "id": "pokemon",
+    "name": "Pokemon"
+  },
+  {
+    "id": "lorcana",
+    "name": "Lorcana"
+  },
+  {
+    "id": "magic-the-gathering",
+    "name": "Magic: The Gathering"
+  },
+  {
+    "id": "gundam",
+    "name": "Gundam Card Game"
+  },
+  {
+    "id": "one-piece",
+    "name": "One Piece Card Game"
+  },
+  {
+    "id": "digimon",
+    "name": "Digimon Card Game"
+  },
+  {
+    "id": "yugioh",
+    "name": "Yu-Gi-Oh!"
+  }
+]
