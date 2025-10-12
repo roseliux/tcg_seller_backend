@@ -1,0 +1,9 @@
+json.id @listing.id
+json.item_title @listing.item_title
+json.description @listing.description
+json.price @listing.price
+json.listing_type @listing.listing_type
+json.condition @listing.condition
+json.user_id @listing.user_id
+json.category_id @listing.category_id
+json.card_set_id @listing.card_set_id
