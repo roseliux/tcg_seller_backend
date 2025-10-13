@@ -73,3 +73,14 @@ User.includes(:sessions).each do |user|
   puts "Authorization Header: Bearer #{session.signed_id}"
   puts "-" * 40
 end
+
+# category
+category = Category.find_or_create_by!(id: 'pokemon', name: 'Pokemon')
+card_set = CardSet.find_or_create_by!(id: 'base1', name: 'Base', category_id: 'pokemon', release_date: '1999-01-09')
+# card = Card.find_or_create_by!(id: 'base1-1', name: 'Alakazam', card_set_id: 'base1', category_id: 'pokemon')
+
+Listing.destroy_all
+10.times do |i|
+  Listing.find_or_create_by!(item_title: "Selling Alakazam #{i+1}", listing_type: 'selling', condition: 'mint', price: '1000', user: User.first, category: category, card_set: card_set)
+  Listing.find_or_create_by!(item_title: "Looking for Alakazam #{i+1}", listing_type: 'looking', condition: 'mint', price: '1001', user: User.first, category: category, card_set: card_set)
+end

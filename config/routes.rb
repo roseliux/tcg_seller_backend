@@ -19,5 +19,5 @@ Rails.application.routes.draw do
   resources :categories, only: :index
   resources :card_sets, only: :index
   resources :cards, only: :index
-  resources :listings, only: [:index, :create]
+  resources :listings, only: [:index, :create, :show, :update]
 end
