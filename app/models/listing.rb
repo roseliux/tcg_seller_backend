@@ -2,6 +2,7 @@ class Listing < ApplicationRecord
   belongs_to :user
   belongs_to :category
   belongs_to :card_set
+  belongs_to :card_location
 
   LISTING_TYPES = %w[selling looking].freeze
   CONDITIONS = %w[any mint near_mint excellent good light_played played poor].freeze

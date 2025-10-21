@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_13_040335) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_21_063707) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "card_locations", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "country"
+    t.string "city"
+    t.string "state"
+    t.string "postal_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "card_sets", id: :string, force: :cascade do |t|
     t.string "name"
@@ -50,6 +60,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_13_040335) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status", default: "active", null: false
+    t.bigint "card_location_id", null: false
+    t.index ["card_location_id"], name: "index_listings_on_card_location_id"
     t.index ["item_title", "user_id", "listing_type"], name: "index_listings_on_item_title_and_user_id_and_listing_type", unique: true
   end
 
@@ -78,6 +90,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_13_040335) do
   add_foreign_key "card_sets", "categories"
   add_foreign_key "cards", "card_sets"
   add_foreign_key "cards", "categories"
+  add_foreign_key "listings", "card_locations"
   add_foreign_key "listings", "card_sets"
   add_foreign_key "listings", "categories"
   add_foreign_key "listings", "users"
