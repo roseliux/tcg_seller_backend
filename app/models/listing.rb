@@ -7,7 +7,7 @@ class Listing < ApplicationRecord
 
   PURPOSE_TYPES = %w[buy sell].freeze
   CONDITIONS = %w[any mint near_mint excellent good light_played played poor].freeze
-  STATUSES = %w[active deactivated sold found].freeze
+  STATUSES = %w[active deactivated completed].freeze
 
   validates :purpose, inclusion: { in: PURPOSE_TYPES }
   validates :condition, inclusion: { in: CONDITIONS }
