@@ -76,12 +76,12 @@ end
 
 # category
 category = Category.find_or_create_by!(id: 'pokemon', name: 'Pokemon')
-card_set = CardSet.find_or_create_by!(id: 'base1', name: 'Base', category_id: 'pokemon', release_date: '1999-01-09')
-# card = Card.find_or_create_by!(id: 'base1-1', name: 'Alakazam', card_set_id: 'base1', category_id: 'pokemon')
-card_location = CardLocation.find_or_create_by!(name: 'Hermosillo, Sonora', country: 'Mexico', city: 'Hermosillo', state: 'Sonora')
+card_set = CardSet.find_or_create_by!(id: 'base1', name: 'Base', category: category, release_date: '1999-01-09')
+card = Card.find_or_create_by!(id: 'base1-1', name: 'Alakazam', card_set: card_set, category: category)
+card_location = Location.find_or_create_by!(name: 'Hermosillo, Sonora', country: 'Mexico', city: 'Hermosillo', state: 'Sonora', postal_code: '83224')
 
 Listing.destroy_all
 10.times do |i|
-  Listing.find_or_create_by!(item_title: "Selling Alakazam #{i+1}", listing_type: 'selling', condition: 'mint', price: '1000', user: User.first, category: category, card_set: card_set, card_location: card_location)
-  Listing.find_or_create_by!(item_title: "Looking for Alakazam #{i+1}", listing_type: 'looking', condition: 'mint', price: '1001', user: User.first, category: category, card_set: card_set, card_location: card_location)
+  Listing.find_or_create_by!(title: "Selling Alakazam #{i+1}", purpose: 'sell', condition: 'mint', price: '1000', user: User.first, listable: card, location: card_location)
+  Listing.find_or_create_by!(title: "Looking for Alakazam #{i+1}", purpose: 'buy', condition: 'mint', price: '1001', user: User.first, listable: card, location: card_location)
 end

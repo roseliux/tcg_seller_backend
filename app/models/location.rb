@@ -1,4 +1,4 @@
-class CardLocation < ApplicationRecord
+class Location < ApplicationRecord
   has_many :listings
 
   validates :name, presence: true, uniqueness: true
