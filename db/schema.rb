@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_21_063707) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_29_222123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -65,6 +65,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_21_063707) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "pokemon_products", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.string "product_type", null: false
+    t.string "card_set_id"
+    t.string "language", default: "english"
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_set_id"], name: "index_pokemon_products_on_card_set_id"
+    t.index ["name"], name: "index_pokemon_products_on_name"
+    t.index ["product_type"], name: "index_pokemon_products_on_product_type"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "user_agent"
@@ -92,5 +106,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_21_063707) do
   add_foreign_key "cards", "categories"
   add_foreign_key "listings", "locations"
   add_foreign_key "listings", "users"
+  add_foreign_key "pokemon_products", "card_sets", on_delete: :nullify
   add_foreign_key "sessions", "users"
 end

@@ -5,7 +5,7 @@ class Listing < ApplicationRecord
 
   validates :title, :purpose, :price, :condition, :status, presence: true
 
-  PURPOSE_TYPES = %w[buy sell].freeze
+  PURPOSE_TYPES = %w[sell looking].freeze
   CONDITIONS = %w[any mint near_mint excellent good light_played played poor].freeze
   STATUSES = %w[active deactivated completed].freeze
 
