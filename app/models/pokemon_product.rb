@@ -1,7 +1,6 @@
 class PokemonProduct < ApplicationRecord
   # Polymorphic association for listings
-  # has_many :listings, as: :listable, dependent: :destroy
-  has_many :listings, as: :listable, dependent: :restrict_with_error # Raises error and prevents deletion if listings exist
+  has_many :listings, as: :item, dependent: :restrict_with_error # Raises error and prevents deletion if listings exist
 
   # Optional association to card set
   belongs_to :card_set, optional: true

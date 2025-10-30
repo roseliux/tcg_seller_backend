@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_29_222123) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_29_233510) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -41,8 +41,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_29_222123) do
   create_table "listings", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
-    t.string "listable_type", null: false
-    t.string "listable_id", null: false
+    t.string "item_type", null: false
+    t.string "item_id", null: false
     t.string "purpose", null: false
     t.decimal "price", precision: 10, scale: 2, null: false
     t.string "condition", null: false
@@ -51,6 +51,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_29_222123) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "location_id", null: false
+    t.index ["item_id"], name: "index_listings_on_item_id"
+    t.index ["item_type", "item_id"], name: "index_listings_on_item_type_and_item_id"
+    t.index ["item_type"], name: "index_listings_on_item_type"
     t.index ["location_id"], name: "index_listings_on_location_id"
     t.index ["user_id"], name: "index_listings_on_user_id"
   end
