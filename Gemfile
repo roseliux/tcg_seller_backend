@@ -72,7 +72,7 @@ end
 
 group :test do
   # API testing helpers
-  gem "shoulda-matchers", "~> 6.4"
+  gem "shoulda-matchers", "~> 7.0"
   gem "json_matchers", "~> 0.11"
   gem "database_cleaner-active_record", "~> 2.1"
 end
