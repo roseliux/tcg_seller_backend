@@ -14,4 +14,13 @@ class Listing < ApplicationRecord
   validates :status, inclusion: { in: STATUSES }
 
   validates :title, presence: true, uniqueness: { scope: [:user_id, :purpose] }
+
+  before_validation :set_default_values, on: :create
+
+  private
+
+  def set_default_values
+    self.status ||= "active"
+    self.condition ||= "any"
+  end
 end

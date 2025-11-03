@@ -2,7 +2,7 @@
 module ApiHelpers
   # Parse JSON response
   def json_response
-    @json_response ||= JSON.parse(response.body, symbolize_names: true)
+    JSON.parse(response.body, symbolize_names: true)
   end
 
   # Helper to set JSON headers
@@ -81,7 +81,9 @@ module ApiHelpers
   # Helper to create authorization headers
   def auth_headers(token)
     {
-      "Authorization" => "Bearer #{token}"
+      "Authorization" => "Bearer #{token}",
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json'
     }
   end
 
