@@ -64,19 +64,10 @@ User.all.each do |user|
   puts ""
 end
 
-# puts "Finished creating test sessions!"
-# puts "\n" + "="*60
-# puts "MOBILE APP TEST CREDENTIALS"
-# puts "="*60
+# Load catalog data
+Rake::Task['db:seed_catalog'].invoke
 
-# User.includes(:sessions).each do |user|
-#   session = user.sessions.first
-#   puts "Email: #{user.email}"
-#   puts "Password: password123456"
-#   puts "Token: #{session.signed_id}"
-#   puts "Authorization Header: Bearer #{session.signed_id}"
-#   puts "-" * 40
-# end
+puts "\n🎉 All seeds completed!"
 
 # category
 category = Category.find_or_create_by!(id: 'pokemon', name: 'Pokemon')

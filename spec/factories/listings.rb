@@ -9,6 +9,7 @@ FactoryBot.define do
 
     association :user
     association :location
+    association :category
 
     # Polymorphic association - defaults to pokemon_product
     association :item, factory: :pokemon_product

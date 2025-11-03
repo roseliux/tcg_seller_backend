@@ -1,6 +1,7 @@
 class Listing < ApplicationRecord
   belongs_to :user
   belongs_to :location
+  belongs_to :category
   belongs_to :item, polymorphic: true
 
   validates :title, :purpose, :price, :condition, :status, presence: true

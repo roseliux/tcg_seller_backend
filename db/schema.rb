@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_29_233510) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_03_060727) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "basic_products", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.string "product_type", null: false
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "card_sets", id: :string, force: :cascade do |t|
     t.string "name"
@@ -51,6 +60,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_29_233510) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "location_id", null: false
+    t.string "category_id", null: false
+    t.string "language", default: "english", null: false
     t.index ["item_id"], name: "index_listings_on_item_id"
     t.index ["item_type", "item_id"], name: "index_listings_on_item_type_and_item_id"
     t.index ["item_type"], name: "index_listings_on_item_type"
@@ -107,6 +118,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_29_233510) do
   add_foreign_key "card_sets", "categories"
   add_foreign_key "cards", "card_sets"
   add_foreign_key "cards", "categories"
+  add_foreign_key "listings", "categories"
   add_foreign_key "listings", "locations"
   add_foreign_key "listings", "users"
   add_foreign_key "pokemon_products", "card_sets", on_delete: :nullify

@@ -13,8 +13,8 @@ RSpec.describe "Listings", type: :request do
   describe "GET /listings" do
     context "when authenticated" do
       before do
-        create_list(:listing, 3, user: user, item: pokemon_product, location: location, purpose: "sell")
-        create_list(:listing, 2, user: user, item: pokemon_product, location: location, purpose: "looking")
+        create_list(:listing, 3, user: user, item: pokemon_product, location: location, purpose: "sell", category: category)
+        create_list(:listing, 2, user: user, item: pokemon_product, location: location, purpose: "looking", category: category)
       end
 
       it "returns sell listings when purpose is sell" do
@@ -74,7 +74,9 @@ RSpec.describe "Listings", type: :request do
           price: 100.00,
           location_postal_code: "12345",
           item_type: "PokemonProduct",
-          item_id: pokemon_product.id
+          item_id: pokemon_product.id,
+          category_id: category.id,
+          language: "english"
         }
       }
     end

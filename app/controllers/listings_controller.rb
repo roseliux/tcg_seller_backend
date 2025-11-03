@@ -53,7 +53,9 @@ class ListingsController < ApplicationController
       :price,
       :location_postal_code,
       :item_type,
-      :item_id
+      :item_id,
+      :category_id,
+      :language
     )
   end
 end
