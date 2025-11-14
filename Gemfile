@@ -36,7 +36,7 @@ gem "thruster", require: false
 gem "rack-cors"
 
 # Pagination
-gem "pagy", "~> 9.4" # omit patch digit
+gem "pagy", "~> 43.0" # omit patch digit
 
 # TCG SDKs
 # # Pokémon
